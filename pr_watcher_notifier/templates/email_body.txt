@@ -1,0 +1,6 @@
+Hi,
+
+Pull request #{{ number }} ({{ pr_url }}) against the {{ repo }} repository has been {{ action }}.
+
+--
+PR Watcher Notifier
