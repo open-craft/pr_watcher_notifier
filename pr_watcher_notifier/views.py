@@ -37,7 +37,9 @@ def handler():
         data = get_request_json(request)
         repo = data['repository']['full_name']
         pr_number = data['number']
-        if should_send_notification(data):
+        notify, modified_files = should_send_notification(data)
+        if notify:
+            data['modified_files'] = modified_files
             current_app.logger.info('Match: {} #{}'.format(repo, pr_number))
             send_notifications(data)
             status_code = 201

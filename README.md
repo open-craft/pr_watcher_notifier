@@ -14,12 +14,13 @@ Python 3.6 or newer
 GitHub Webhook setup
 ====================
 
-* Use a tool like `ngrok` to expose the local development server on the internet.
+* The application has to be run on a internet-accessible URL in production. During development, a tool like
+  `ngrok` can be used to expose the local development server on the internet.
 * Create a webhook on the repository to be watched by following [these instructions](https://developer.github.com/webhooks/creating/).
 This requires administrator-level access to the repository.
-* Use the `<ngrok URL>/pull-requests` as the payload URL and set the `Content Type` to `application/json`.
+* Use the `<Internet-accessible URL of the app>/pull-requests` as the payload URL and set the `Content Type` to `application/json`.
 * Remember to set a secret and to select only the 'Pull request' event.
-* Create a GitHub web token.
+* Create a GitHub access token. No particular permissions are required for a public repository. The `repo` scope permissions are needed for private repositories.
 
 
 Development Setup
@@ -37,7 +38,7 @@ $ pip install -r requirements.txt -r requirements-dev.txt
 * Verify that the unit tests run without errors and pass.
 
 ```bash
-$ pytest
+$ pytest --cov=pr_watcher_notifier
 ```
 
 * Configure the environment variables used in the `settings.py` file.
@@ -52,3 +53,9 @@ $ flask run
 ```
 
 The development server should now be available at http://127.0.0.1:5000 and listening for the webhook notifications.
+To modify the IP address or the port used by the development server, use the `-h` and `-p` flags of the `flask run`
+command respectively.
+
+```bash
+$ flask run -h 0.0.0.0 -p 8000
+```

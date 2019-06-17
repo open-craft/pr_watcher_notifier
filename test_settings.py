@@ -3,7 +3,7 @@ GITHUB_ACCESS_TOKEN = '123'
 
 WATCH_CONFIG = {
     'a/b': {
-        'patterns': ['docs/*', ],
+        'patterns': ['documents/*', ],
         'recipients': 'nobody@example.com',
     }
 }

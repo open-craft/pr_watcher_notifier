@@ -66,27 +66,36 @@ def should_send_notification(data):
     """
     action = data['action']
     notify = False
+    matching_modified_files = []
+
     if action in ('opened', 'closed', 'synchronize', 'reopened'):
         repo = data['repository']['full_name']
         pr_number = data['number']
         pr = get_pr(repo, pr_number)
         matched = False
+        watch_config = current_app.config['WATCH_CONFIG']
         for modified_file in pr.get_files():
-            config = current_app.config['WATCH_CONFIG'].get(repo)
+            config = watch_config.get(repo)
             if config:
                 for pattern in config['patterns']:
                     if fnmatch(modified_file.filename, pattern):
                         matched = True
-                        break
+                        matching_modified_files.append(modified_file.filename)
                 if matched:
                     break
         if matched:
             notify = True
+
+            # To avoid duplicate notifications for the same PR when its source branch is updated,
+            # check if the modifications to the watched patterns are first added by the changes
+            # in the update. This can be done by comparing the previous HEAD of the PR branch against
+            # the target branch and verifying that no files matching the patterns were modified.
             if action == 'synchronize':
                 target = get_target_branch(pr)
                 previous_head = data['before']
                 for modified_file in get_comparison_file_names(repo, target, previous_head):
-                    if fnmatch(modified_file, 'docs/*'):
-                        notify = False
-                        break
-    return notify
+                    for pattern in watch_config[repo]['patterns']:
+                        if fnmatch(modified_file, pattern):
+                            notify = False
+                            break
+    return notify, matching_modified_files

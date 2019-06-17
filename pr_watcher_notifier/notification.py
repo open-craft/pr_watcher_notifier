@@ -28,14 +28,17 @@ def send_notifications(data):
     """
     pr_data = data['pull_request']
     repo = data['repository']['full_name']
+    watch_config = current_app.config['WATCH_CONFIG'][repo]
     context = {
         'repo': repo,
         'number': data['number'],
+        'patterns': ", ".join(watch_config['patterns']),
         'action': data['action'] if data['action'] != 'synchronize' else 'updated',
         'merged': pr_data['merged'],
         'creator': pr_data['user']['login'],
-        'to': current_app.config['WATCH_CONFIG'][repo]['recipients'],
-        'subject': current_app.config['WATCH_CONFIG'][repo]['subject'],
-        'pr_url': pr_data['_links']['html']['href']
+        'to': watch_config['recipients'],
+        'subject': watch_config['subject'],
+        'pr_url': pr_data['_links']['html']['href'],
+        'modified_files': data['modified_files'],
     }
     send_email(context)
