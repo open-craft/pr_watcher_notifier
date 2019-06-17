@@ -42,7 +42,7 @@ $ pytest --cov=pr_watcher_notifier
 ```
 
 * Configure the environment variables used in the `settings.py` file.
-* Configure the secrets, repositories to watch, the file patterns, the email subject and the recipients in the same file.
+* Setup the watch configuration YAML file and configure the `WATCH_CONFIG_FILE` environment variable to point to it. The format is documented in `settings.py`.
 * Set the `FLASK_APP` environment variable to point to the `run.py` file.
 * Set the `FLASK_DEBUG` environment variable to `1` and run the development server.
 
