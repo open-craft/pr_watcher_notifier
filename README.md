@@ -73,6 +73,7 @@ The app gets its configuration settings from the following environment variables
 * `WATCH_CONFIG_FILE` - The file containing the watch configuration to be used by the app.
 * `CUSTOM_CONFIG_REPO` - Optional. Required only when deploying to Heroku. URL of a git repository containing
   the watch configuration file. More details in the section about deploying to Heroku.
+* `LOG_LEVEL` - the log level to use: "debug", "info", "warning", or "error".
 
 The following settings related to email accept values as documented in
 the [Flask-Mail documentation](https://pythonhosted.org/Flask-Mail/#configuring-flask-mail).
