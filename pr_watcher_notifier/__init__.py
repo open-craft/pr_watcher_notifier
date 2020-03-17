@@ -3,6 +3,7 @@ A web application to receive GitHub webhook payload for pull requests and send o
 when the watched files are changed.
 """
 import logging
+import os
 
 from flask import Flask
 from flask.logging import default_handler
