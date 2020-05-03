@@ -2,7 +2,7 @@ PR Watcher Notifier
 ===================
 
 A flask web application that handles webhook notifications for pull request changes and sends out notifications
-when there are changes to files matched by the configured patterns for each repository
+when there are changes to files matched by the configured patterns for each repository.
 
 
 Pre-requisites
